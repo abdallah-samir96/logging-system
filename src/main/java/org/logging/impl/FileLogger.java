@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
  * @version V1.0.1
  * @see ConsoleLogger
  */
-public class FileLogger implements Logger {
+public final class FileLogger implements Logger {
     private final Level level;
     private final PrintWriter printWriter;
 
