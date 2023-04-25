@@ -6,58 +6,65 @@ import org.logging.utils.enums.Level;
 import java.io.*;
 import java.time.LocalDateTime;
 
+/**
+ * @since 25-04-2023
+ * @author abdallahsameer22@gmail.com
+ * @version V1.0.1
+ * @see ConsoleLogger
+ */
 public class FileLogger implements Logger {
     private final Level level;
-    private   PrintWriter printWriter;
+    private final PrintWriter printWriter;
 
-    private static final String name = "logging.logs";
+    private final String filePath;
+
     private FileLogger(Level level) throws IOException {
 
-        var path = this.getClass().getClassLoader().getResource("logging.logs");
-        File file = new File(path.getFile());
-        if(file.exists()) System.out.println("exists");
-        System.out.println(path);
+        var fileSeparator = File.separator;
+        this.filePath = "src"+ fileSeparator +"main"+ fileSeparator +"resources"+ fileSeparator +"logs"+ fileSeparator +"logging.logs";
+
+        File file = new File(filePath);
         this.level = level;
-       // this.printWriter = new PrintWriter(new FileOutputStream(path));
+        this.printWriter = new PrintWriter(new FileOutputStream(file, true));
     }
 
     public static Logger getInstance(Level level) throws IOException {
-        System.out.println("**** Logging System ****");
+        System.out.println("**** Logging System Using FileLogger ****");
         return new FileLogger(level);
     }
 
     @Override
     public void log(String text) {
 
-        printWriter.println(this.level + " " + this.getClass().getName() + "-" + LocalDateTime.now() + " " + text);
+        printWriter.println(this.level + " " + this.getClass().getName() + " " + LocalDateTime.now() + " " + text);
         printWriter.flush();
     }
 
     @Override
     public void log(long value) {
 
-        printWriter.println(this.level + " " + this.getClass().getName() + "-" + LocalDateTime.now() + " " + value);
+        printWriter.println(this.level + " " + this.getClass().getName() + " " + LocalDateTime.now() + " " + value);
         printWriter.flush();
     }
 
     @Override
     public void log(char character) {
 
-        printWriter.println(this.level + " " + this.getClass().getName() + "-" + LocalDateTime.now() + " " + character);
+        printWriter.println(this.level + " " + this.getClass().getName() + " " + LocalDateTime.now() + " " + character);
         printWriter.flush();
     }
 
     @Override
     public void log(double value) {
 
-        printWriter.println(this.level + " " + this.getClass().getName() + "-" + LocalDateTime.now() + " " + value);
+        printWriter.println(this.level + " " + this.getClass().getName() + " " + LocalDateTime.now() + " " + value);
         printWriter.flush();
     }
 
     @Override
     public <T> void writeObject(T object) {
 
-        try(var objectOutputStream = new ObjectOutputStream(System.out)) {
+        try(var objectOutputStream = new ObjectOutputStream(new FileOutputStream(this.filePath, true))) {
 
             objectOutputStream.writeObject(object);
 
@@ -67,5 +74,8 @@ public class FileLogger implements Logger {
         }
     }
 
-
+    @Override
+    public void close() {
+        this.printWriter.close();
+    }
 }

@@ -10,4 +10,5 @@ public interface Logger {
      void log(char character);
      void log(double value);
      <T> void writeObject(T object);
+     void close();
 }

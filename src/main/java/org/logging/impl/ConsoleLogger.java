@@ -7,6 +7,12 @@ import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
 
+/**
+ * @since 25-04-2023
+ * @author abdallahsameer22@gmail.com
+ * @version V1.0.1
+ * @see FileLogger
+ */
 public class ConsoleLogger implements Logger {
     private final Level level;
     private final PrintWriter printWriter;
@@ -17,35 +23,35 @@ public class ConsoleLogger implements Logger {
     }
 
     public static Logger getInstance(Level level) {
-        System.out.println("**** Logging System ****");
+        System.out.println("**** Logging System Using ConsoleLogger ****");
         return new ConsoleLogger(level);
     }
 
     @Override
     public void log(String text) {
 
-        printWriter.println(this.level + " " + this.getClass().getName() + "-" + LocalDateTime.now() + " " + text);
+        printWriter.println(this.level + " " + this.getClass().getName() + " " + LocalDateTime.now() + " " + text);
         printWriter.flush();
     }
 
     @Override
     public void log(long value) {
 
-        printWriter.println(this.level + " " + this.getClass().getName() + "-" + LocalDateTime.now() + " " + value);
+        printWriter.println(this.level + " " + this.getClass().getName() + " " + LocalDateTime.now() + " " + value);
         printWriter.flush();
     }
 
     @Override
     public void log(char character) {
 
-        printWriter.println(this.level + " " + this.getClass().getName() + "-" + LocalDateTime.now() + " " + character);
+        printWriter.println(this.level + " " + this.getClass().getName() + " " + LocalDateTime.now() + " " + character);
         printWriter.flush();
     }
 
     @Override
     public void log(double value) {
 
-        printWriter.println(this.level + " " + this.getClass().getName() + "-" + LocalDateTime.now() + " " + value);
+        printWriter.println(this.level + " " + this.getClass().getName() + " " + LocalDateTime.now() + " " + value);
         printWriter.flush();
     }
 
@@ -62,5 +68,9 @@ public class ConsoleLogger implements Logger {
         }
     }
 
+    @Override
+    public void close() {
+        this.printWriter.close();
+    }
 
 }
